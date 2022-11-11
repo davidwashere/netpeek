@@ -16,7 +16,18 @@ Detecting idle servers (ie: game servers) via stdout/logs is not always feasible
 ## Usage
 
 ```
-sudo ./netpeek <flags>
+$ netpeek -h
+NetPeek captures UDP traffic periodically and summarizes captured metadata
+
+Usage:
+  netpeek [flags]
+
+Flags:
+  -d, --duration int    Number of seconds to capture traffic (default 5)
+  -h, --help            help for netpeek
+  -i, --interval int    Number of seconds to wait between captures, set to -1 to execute once and exit (default 300)
+  -o, --output string   Defines where to send results, valid options: 'stdout', 'http[s]://...', or  will send 'path/to/some/file.log' (default "stdout")
+  -p, --port string     Port to watch for traffic (default "34197")
 ```
 
 ## Improvements
