@@ -1,6 +1,6 @@
 # NetPeek
 
-NetPeek will capture UDP packets at intervals and/or poll established TCP connections, sending summary of connected / communicating IPs to a destination (log, http endpoint, etc.) for further processing
+NetPeek will capture UDP packets at intervals, sending summary of packets observed to a destination (stdout, file, http, etc.) for further processing
 
 _Linux Only at this time_
 
