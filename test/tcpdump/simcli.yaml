@@ -1,0 +1,13 @@
+tasks:
+  - name: factorio-sample
+    type: sysout
+    input: tcpdump-sample-stdout
+commands:
+  - args: -s 96 -nn "udp and port 34197"
+    rc: 0
+    tasks:
+    - factorio-sample
+# defaultCommand:
+#   rc: 1
+#   tasks:
+#     - error-task
