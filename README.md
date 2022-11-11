@@ -19,23 +19,6 @@ Detecting idle servers (ie: game servers) via stdout/logs is not always feasible
 sudo ./netpeek <flags>
 ```
 
-
-## Scratch
-```sh
-tcpdump -s 96 -nn "udp and dst port 34197"
-tcpdump -s 96 -nn "udp and port 34197"
-
-
-{
-    "start":"val",
-    "end":"val",
-    "udpTuples": [
-        { "srcIP":"" , "srcPort":"" , "destIP":"" , "destPort":"", "numPackets": 13 },
-        { "srcIP":"" , "srcPort":"" , "destIP":"" , "destPort":"", "numPackets": 7 },
-    ]
-}
-```
-
 ## Improvements
 - [ ] Add windows support
 - [ ] Add ability to capture established TCP connections
