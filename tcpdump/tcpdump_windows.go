@@ -7,7 +7,7 @@ import (
 	"github.com/davidwashere/netpeek/domain"
 )
 
-func (u *UDPWatcherService) Watch(destPort string, duration int) (*domain.Result, error) {
+func (u *UDPWatcherService) Watch(destPort string, duration int, direction string) (*domain.Result, error) {
 	log.Printf("WARNING: faking tcpdump response for windows testing, NOT REAL DATA")
 	// TODO: consider using mock instead of platform specific here
 

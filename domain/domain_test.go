@@ -1,12 +1,11 @@
 package domain
 
 import (
-	"encoding/json"
 	"fmt"
 	"testing"
 )
 
-func TestResultJSONMarshall(t *testing.T) {
+func TestResultJSONMarshal(t *testing.T) {
 
 	r := Result{
 		UDPTuples: []*NetTuple{},
@@ -28,10 +27,9 @@ func TestResultJSONMarshall(t *testing.T) {
 	nt.NumPackets = 2
 	r.UDPTuples = append(r.UDPTuples, nt)
 
-	dataB, err := json.Marshal(&r)
-
-	if err != nil {
-		t.Error(err)
+	dataB := r.Bytes()
+	if len(dataB) == 0 {
+		t.Error("json marshaling failed")
 	}
 
 	fmt.Printf("%s\n", dataB)

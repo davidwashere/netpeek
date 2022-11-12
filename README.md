@@ -23,19 +23,20 @@ Usage:
   netpeek [flags]
 
 Flags:
-  -d, --duration int    Number of seconds to capture traffic (default 5)
+      --dir string      direction to watch port traffic on, valid options: 'both', 'src', or 'dst'. 'src' means capture packets on this host that came from the specified port, 'dst' means capture packets sent to the specified port (default "both")
+  -d, --duration int    number of seconds to capture traffic (default 5)
   -h, --help            help for netpeek
-  -i, --interval int    Number of seconds to wait between captures, set to -1 to execute once and exit (default 300)
-  -o, --output string   Defines where to send results, valid options: 'stdout', 'http[s]://...', or  will send 'path/to/some/file.log' (default "stdout")
-  -p, --port string     Port to watch for traffic (default "34197")
+  -i, --interval int    number of seconds to wait between captures, set to -1 to execute once and exit (default 300)
+  -o, --output string   where to send results, valid options: 'stdout', 'http[s]://...', or  will send 'path/to/some/file.log' (default "stdout")
+      --perm string     file permissions to set when writing results to a file (default "644")
+  -p, --port string     port to watch for traffic (default "34197")
+      --pretty          pretty print result json when output == stdout
 ```
 
 ## Improvements
-- [ ] Add windows support
+- [ ] Migrate to `https://github.com/google/gopacket` from `tcpdump`
+  - enables windows support
 - [ ] Add ability to capture established TCP connections
     - Consider: https://github.com/weaveworks/procspy
-- [ ] Migrate to `https://github.com/google/gopacket` so not dependant on `tcpdump` directly
-    - map help with cross platform support (ie: windows)
 - [ ] Add Auth to http/https dst's (basic auth, bearer, etc.)
-- [ ] Add ability to customize capture filter / parameters
-- [ ] Add flag to stream raw captured packet data
+- [ ] Test keeping handle to file output open instead of closing

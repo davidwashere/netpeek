@@ -40,3 +40,24 @@ func TestParseLine(t *testing.T) {
 		t.Errorf("expected error but got %v", r)
 	}
 }
+
+func TestBuildFilter(t *testing.T) {
+	tt := []struct {
+		port string
+		dir  string
+		want string
+	}{
+		{"1", "both", "udp and port 1"},
+		{"1", "src", "udp and src port 1"},
+		{"1", "dst", "udp and dst port 1"},
+	}
+
+	for _, test := range tt {
+		got := buildFilter(test.port, test.dir)
+
+		if got != test.want {
+			t.Errorf("got %v, want %v", got, test.want)
+		}
+	}
+
+}

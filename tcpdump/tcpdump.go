@@ -9,19 +9,21 @@ import (
 )
 
 const (
-	commandNameDefault      = "tcpdump"
+	// commandNameDefault default binary to execute to capture packets
+	commandNameDefault = "tcpdump"
+
+	// packetSnapLengthDefault the default number of bytes to capture per tcpdump packet, ideally this is the
+	// minimum bytes necessary to extract relevant packet headers
 	packetSnapLengthDefault = "96"
 )
 
 var (
-	// regexFindIpPort matches #.#.#.#.# - ie: 192.168.1.1.8080
-	// finds #.#.#.#.# (last # is the port) typical in a tcpdump stdout msg
+	// regexFindIpPort matches #.#.#.#.# (the last # is the port) - ie: 192.168.1.1.8080
 	regexFindIpPort = regexp.MustCompile(`(\d){1,3}\.(\d){1,3}\.(\d){1,3}\.(\d){1,3}\.(\d){1,5}`)
 )
 
 type UDPWatcherService struct {
-	// CommandName is the binary to execute that produced `tcpdump` compatible output
-	// will default to `tcpdump`
+	// CommandName is the binary to execute that produces `tcpdump` compatible output
 	CommandName string
 
 	// PacketSnapLength defines the number of bytes to capture of each packet, defaults to 96
@@ -37,11 +39,7 @@ func NewUDPWatcherService() *UDPWatcherService {
 	}
 }
 
-// parseLine will parse a line of output from tcpdump and extract the source
-// ip for the packet
-//
-// this assumes that the tcpdump filter is set so that only traffic to a specific
-// port is being considered (vs. bidirectional)
+// parseLine will extract relevant fields from `tcpdump` stdout
 func (u *UDPWatcherService) parseLine(line string) (*domain.NetTuple, error) {
 	if len(line) == 0 {
 		return nil, fmt.Errorf("line is empty")
@@ -66,4 +64,16 @@ func (u *UDPWatcherService) parseLine(line string) (*domain.NetTuple, error) {
 	r.DestPort = match[i+1:]
 
 	return &r, nil
+}
+
+func buildFilter(port string, direction string) string {
+	dir := ""
+	if direction == domain.DirectionSrc {
+		dir = "src "
+	} else if direction == domain.DirectionDest {
+		dir = "dst "
+	}
+
+	filter := fmt.Sprintf("udp and %sport %s", dir, port)
+	return filter
 }

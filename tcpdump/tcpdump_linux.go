@@ -1,12 +1,20 @@
 package tcpdump
 
-func (u *UDPWatcherService) Watch(destPort string, duration int) (*domain.Result, error) {
+import (
+	"log"
+	"time"
+
+	"github.com/davidwashere/netpeek/domain"
+	"github.com/davidwashere/netpeek/util"
+)
+
+func (u *UDPWatcherService) Watch(destPort string, duration int, direction string) (*domain.Result, error) {
 	result := domain.Result{
 		Start: time.Now().UTC(),
 	}
 
 	// tcpdump -s 96 -nn "udp and port 34194"
-	filter := fmt.Sprintf("udp and port %s", destPort)
+	filter := buildFilter(destPort, direction)
 	cmdParts := []string{u.CommandName, "-s", u.PacketSnapLength, "-nn", filter}
 
 	lineChan := make(chan string)
